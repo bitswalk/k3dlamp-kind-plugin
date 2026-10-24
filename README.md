@@ -1,6 +1,8 @@
 # k3dlamp kind plugin
 
-A Headlamp Desktop plugin that creates and deletes [kind](https://kind.sigs.k8s.io) clusters. It is built for [k3dlamp](https://github.com/bitswalk/k3dlamp), next to the [k3d plugin](https://github.com/bitswalk/k3dlamp-k3d-plugin), for machines where kind is the easier install: Ubuntu, for one, packages both Docker and kind.
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/bitswalk-k3dlamp-kind-plugin)](https://artifacthub.io/packages/search?repo=bitswalk-k3dlamp-kind-plugin)
+
+A Headlamp Desktop plugin that creates and deletes [kind](https://kind.sigs.k8s.io) clusters. It is built for [k3dlamp](https://github.com/bitswalk/k3dlamp) and published on [Artifact Hub](https://artifacthub.io/packages/headlamp/bitswalk-k3dlamp-kind-plugin/k3dlamp-kind-plugin), next to the [k3d plugin](https://github.com/bitswalk/k3dlamp-k3d-plugin), for machines where kind is the easier install: Ubuntu, for one, packages both Docker and kind.
 
 The plugin checks that kind works, lists its clusters, creates clusters, and deletes them. kind adds each new cluster to the default kubeconfig. Headlamp watches that file, so the cluster appears in the cluster list as `kind-<name>`. kind also makes the new cluster the kubeconfig's current context, and has no option not to.
 
@@ -35,7 +37,7 @@ For the plugin installed from Artifact Hub, the policy is:
     {
       "bundleName": "k3dlamp-kind-plugin",
       "packageName": "@bitswalk/headlamp-kind",
-      "artifactHubPackage": "bitswalk/k3dlamp-kind-plugin"
+      "artifactHubPackage": "bitswalk-k3dlamp-kind-plugin/k3dlamp-kind-plugin"
     }
   ],
   "commands": [
@@ -85,5 +87,3 @@ npm run dev:install
 2. Push a matching tag, for example `v0.1.0`.
 
 The release workflow checks the tag against `package.json`, runs the checks, and publishes `bitswalk-headlamp-kind-<version>.tar.gz` with a `SHA256SUMS` file. It then commits `artifacthub/<version>/`, the Artifact Hub metadata that points at that archive, to `main`. Artifact Hub picks the new version up on its next scan, usually within 30 minutes.
-
-Before the first release, add this repository to Artifact Hub as a Headlamp plugins repository whose URL is this repository's `artifacthub` directory, then put its repository ID in [`artifacthub/artifacthub-repo.yml`](artifacthub/artifacthub-repo.yml).

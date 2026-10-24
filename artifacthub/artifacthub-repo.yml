@@ -1,5 +1,7 @@
 # Artifact Hub repository metadata. Spec:
 # https://github.com/artifacthub/hub/blob/master/docs/metadata/artifacthub-repo.yml
 #
-# Add `repositoryID:` here once this repository is registered on Artifact Hub, so
-# Artifact Hub marks it as a verified publisher, as the k3d plugin's repository is.
+# The ID of this plugin's repository on Artifact Hub, bitswalk-k3dlamp-kind-plugin.
+# When it matches, Artifact Hub marks the repository as a verified publisher the
+# next time it processes it.
+repositoryID: b948282f-fac1-4431-ad0a-b4923d151716
