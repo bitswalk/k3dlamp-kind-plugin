@@ -1,0 +1,5 @@
+[
+  { "tool": "kind", "args": ["get", "clusters"] },
+  { "tool": "kind", "args": ["create", "cluster", "--config", "-", "--wait", "5m"] },
+  { "tool": "kind", "args": ["delete", "cluster", "--name"], "allowTrailingArgs": true }
+]

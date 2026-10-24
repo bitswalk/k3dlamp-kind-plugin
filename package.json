@@ -1,0 +1,45 @@
+{
+  "name": "@bitswalk/headlamp-kind",
+  "version": "0.1.0",
+  "description": "Create and delete kind clusters from Headlamp Desktop.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bitswalk/k3dlamp-kind-plugin.git"
+  },
+  "scripts": {
+    "start": "headlamp-plugin start",
+    "build": "headlamp-plugin build",
+    "dev:install": "npm run build && mkdir -p ${K3DLAMP_PLUGINS_DIR:-$HOME/.config/k3dlamp/plugins}/headlamp-kind && cp dist/main.js package.json ${K3DLAMP_PLUGINS_DIR:-$HOME/.config/k3dlamp/plugins}/headlamp-kind/",
+    "format": "headlamp-plugin format",
+    "lint": "headlamp-plugin lint",
+    "lint-fix": "headlamp-plugin lint --fix",
+    "package": "headlamp-plugin package",
+    "tsc": "headlamp-plugin tsc",
+    "test": "headlamp-plugin test"
+  },
+  "keywords": [
+    "headlamp",
+    "headlamp-plugin",
+    "kubernetes",
+    "kind"
+  ],
+  "prettier": "@headlamp-k8s/eslint-config/prettier-config",
+  "eslintConfig": {
+    "extends": [
+      "@headlamp-k8s",
+      "prettier",
+      "plugin:jsx-a11y/recommended"
+    ]
+  },
+  "overrides": {
+    "typescript": "5.6.2",
+    "vitest": "4.1.12",
+    "@vitest/coverage-istanbul": "4.1.12",
+    "@vitest/mocker": "4.1.12",
+    "webpack-dev-middleware": "7.4.6"
+  },
+  "devDependencies": {
+    "@kinvolk/headlamp-plugin": "^0.14.0"
+  }
+}

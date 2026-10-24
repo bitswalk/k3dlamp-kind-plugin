@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Check the tag matches package.json
+        run: |
+          version="$(node -p 'require("./package.json").version')"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run tsc
+      - run: npm run lint
+      - run: npm run build
+
+      - name: Package
+        run: |
+          npx headlamp-plugin package . release
+          cd release
+          sha256sum -- *.tar.gz > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          archive="$(cd release && ls -- *.tar.gz)"
+          digest="$(cut -d' ' -f1 release/SHA256SUMS)"
+          cat > notes.md <<EOF
+          Plugin archive \`$archive\`, SHA-256 \`$digest\`.
+
+          Install it from Artifact Hub in a Headlamp desktop build that grants its kind
+          commands, such as k3dlamp. See [Requirements](https://github.com/bitswalk/k3dlamp-kind-plugin#requirements).
+          EOF
+          gh release create "$GITHUB_REF_NAME" release/* \
+            --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+
+      # Artifact Hub reads metadata from main, so commit it there; it lists the
+      # new version on its next scan.
+      - name: Publish Artifact Hub metadata
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          archive="$(cd release && ls -- *.tar.gz)"
+          digest="$(cut -d' ' -f1 release/SHA256SUMS)"
+          git fetch -q origin main
+          git checkout -q -B main origin/main
+          ./scripts/artifacthub-pkg.sh "$version" "$archive" "$digest"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "artifacthub/$version"
+          git commit -q -m "artifacthub: publish $version"
+          git push -q origin main

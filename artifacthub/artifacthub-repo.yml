@@ -1,0 +1,5 @@
+# Artifact Hub repository metadata. Spec:
+# https://github.com/artifacthub/hub/blob/master/docs/metadata/artifacthub-repo.yml
+#
+# Add `repositoryID:` here once this repository is registered on Artifact Hub, so
+# Artifact Hub marks it as a verified publisher, as the k3d plugin's repository is.
