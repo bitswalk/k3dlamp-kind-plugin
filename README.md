@@ -79,7 +79,7 @@ To try a change in a k3dlamp development run, build the plugin into k3dlamp's de
 npm run dev:install
 ```
 
-`overrides` in `package.json` moves build and test tooling that `@kinvolk/headlamp-plugin` pulls in past known vulnerabilities, as in the k3d plugin; its README explains each one.
+`overrides` in `package.json` moves build and test tooling that `@kinvolk/headlamp-plugin` pulls in past known vulnerabilities, as in the k3d plugin; its README explains each one, and why `elliptic`, which has no fixed release, stays out of `dist/main.js`. This plugin doesn't import `crypto` either.
 
 ## Release
 
