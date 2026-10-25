@@ -1,6 +1,6 @@
 {
   "name": "@bitswalk/headlamp-kind",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create and delete kind clusters from Headlamp Desktop.",
   "license": "Apache-2.0",
   "repository": {
