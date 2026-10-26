@@ -128,8 +128,19 @@ export function describeFailure({ code, stderr }: RunResult): string {
     case CONSENT_DENIED:
       return 'The kind command was denied in the consent prompt, and the app keeps that choice.';
     default:
-      return stderr.trim() || `kind exited with code ${code}.`;
+      return kindError(stderr) || `kind exited with code ${code}.`;
   }
+}
+
+/**
+ * kind logs its progress to stderr as well as its error, which comes last and
+ * starts with "ERROR:". Keep that and anything after it; the output panel shows
+ * the rest. Output without an ERROR line is kept whole.
+ */
+function kindError(stderr: string): string {
+  const lines = stderr.trim().split('\n');
+  const first = lines.findIndex(line => line.startsWith('ERROR:'));
+  return (first === -1 ? lines : lines.slice(first)).join('\n').trim();
 }
 
 /** `kind get clusters` prints one name per line, and nothing on stdout without clusters. */

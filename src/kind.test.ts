@@ -117,6 +117,27 @@ describe('describeFailure', () => {
       "This app can't pass a config to kind. Update k3dlamp to 0.4.0 or later."
     );
   });
+
+  it("keeps kind's error and what follows it, not the progress before it", () => {
+    const stderr = [
+      'Creating cluster "local-aio" ...',
+      ' ✓ Ensuring node image (kindest/node:v1.34.0) 🖼',
+      ' • Ready after 18s 💚',
+      'ERROR: failed to create cluster: failed to lock config file: open /home/me/.kube/config.lock: file exists',
+      'Command Output: details',
+      '',
+    ].join('\n');
+    expect(describeFailure({ code: 1, stdout: '', stderr })).toBe(
+      'ERROR: failed to create cluster: failed to lock config file: open /home/me/.kube/config.lock: file exists\nCommand Output: details'
+    );
+  });
+
+  it('keeps output without an ERROR line whole', () => {
+    expect(describeFailure({ code: 1, stdout: '', stderr: ' something broke \n' })).toBe(
+      'something broke'
+    );
+    expect(describeFailure({ code: 2, stdout: '', stderr: '' })).toBe('kind exited with code 2.');
+  });
 });
 
 describe('createCluster', () => {
