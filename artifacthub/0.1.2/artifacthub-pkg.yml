@@ -1,0 +1,31 @@
+version: 0.1.2
+name: k3dlamp-kind-plugin
+displayName: kind for k3dlamp
+createdAt: "2026-10-26T23:12:27Z"
+description: >-
+  Create and delete kind clusters from Headlamp Desktop. Works only in a Headlamp
+  desktop build whose app-build-manifest.json grants this plugin three kind
+  commands and passes them standard input, such as k3dlamp. Stock Headlamp
+  releases don't.
+license: Apache-2.0
+homeURL: https://github.com/bitswalk/k3dlamp-kind-plugin
+logoURL: https://raw.githubusercontent.com/bitswalk/k3dlamp/main/branding/overlay/frontend/public/android-chrome-512x512.png
+keywords:
+  - kind
+  - kubernetes in docker
+  - local cluster
+  - k3dlamp
+links:
+  - name: Source
+    url: https://github.com/bitswalk/k3dlamp-kind-plugin
+  - name: k3dlamp
+    url: https://github.com/bitswalk/k3dlamp
+install: |
+  This plugin works only in a Headlamp desktop build whose
+  `app-build-manifest.json` grants it three kind commands.
+  [k3dlamp](https://github.com/bitswalk/k3dlamp) is such a build; stock Headlamp
+  releases aren't. See [Requirements](https://github.com/bitswalk/k3dlamp-kind-plugin#requirements) for the grants.
+annotations:
+  headlamp/plugin/archive-url: "https://github.com/bitswalk/k3dlamp-kind-plugin/releases/download/v0.1.2/bitswalk-headlamp-kind-0.1.2.tar.gz"
+  headlamp/plugin/archive-checksum: "sha256:5d75b939ccf49d62babf1936f58a5949a53fc528a8710e1559d30f837b32fae3"
+  headlamp/plugin/distro-compat: "app"
