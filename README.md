@@ -4,7 +4,7 @@
 
 A Headlamp Desktop plugin that creates and deletes [kind](https://kind.sigs.k8s.io) clusters. It is built for [k3dlamp](https://github.com/bitswalk/k3dlamp) and published on [Artifact Hub](https://artifacthub.io/packages/headlamp/bitswalk-k3dlamp-kind-plugin/k3dlamp-kind-plugin), next to the [k3d plugin](https://github.com/bitswalk/k3dlamp-k3d-plugin), for machines where kind is the easier install: Ubuntu, for one, packages both Docker and kind.
 
-The plugin checks that kind works, lists its clusters, creates clusters, and deletes them. kind adds each new cluster to the default kubeconfig. Headlamp watches that file, so the cluster appears in the cluster list as `kind-<name>`. kind also makes the new cluster the kubeconfig's current context, and has no option not to.
+The plugin checks that kind works, lists its clusters, creates clusters, and deletes them. It lists them as Headlamp's home page lists clusters: origin, status, warnings and Kubernetes version, with **Delete** in each row's **Actions** menu. kind adds each new cluster to the default kubeconfig. Headlamp watches that file, so the cluster appears in the cluster list as `kind-<name>`. kind also makes the new cluster the kubeconfig's current context, and has no option not to.
 
 Its **kind** page, also reached from **Add Cluster → Providers → kind**, creates a cluster two ways:
 
@@ -62,7 +62,8 @@ The plugin builds against `@kinvolk/headlamp-plugin` 0.14.0, which predates the 
 | `kind` isn't on `PATH` | "kind is not installed, or not on the PATH this app was started with." |
 | The build can't pass standard input, such as k3dlamp before 0.4.0 | "This app can't pass a config to kind. Update k3dlamp to 0.4.0 or later." |
 | Consent was denied | "The kind command was denied in the consent prompt, and the app keeps that choice." |
-| kind fails, for example Docker is down | kind's own stderr |
+| kind fails, for example Docker is down | kind's `ERROR:` lines, or its whole stderr if it printed none |
+| kind has a cluster that the kubeconfig has no context for | The cluster's status is "Not in kubeconfig", and its tooltip gives the `kind export kubeconfig` command that adds it back |
 
 ## Develop
 
